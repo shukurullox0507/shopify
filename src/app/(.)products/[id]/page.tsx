@@ -6,16 +6,43 @@ import { Dialog } from '@headlessui/react'
 import { StarIcon } from '@heroicons/react/24/solid'
 import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline'
 import { useParams, useRouter } from 'next/navigation'
+import { toast } from 'react-toastify';
+
 import React, { useEffect, useState } from 'react'
 
 const ProductDetailedPage = () => {
     const [loading, setLoading] = useState(false)
     const [product, setProduct] = useState<ProductType>()
     const [isOpen, setIsOpen] = useState(true)
-
     const router = useRouter()
     const { id } = useParams()
 
+    const handleClick = () => {
+
+        const products: ProductType [] = 
+			JSON.parse(localStorage.getItem('carts') as string) || [] ;
+
+		const isExistProduct = products.find(c => c.id === product?.id);
+
+		if (isExistProduct) {
+			const updatedData = products.map(c => {
+				if (c.id === product?.id) {
+					return {
+						...c,
+						quantity: c.quantity + 1,
+					};
+				}
+
+				return c;
+			});
+
+			localStorage.setItem('carts', JSON.stringify(updatedData));
+		} else {
+			const data = [...products, { ...product, quantity: 1 }];
+			localStorage.setItem('carts', JSON.stringify(data));
+		}
+        toast('Product added to your bag')
+    }
     useEffect(() => {
         async function getData() {
             setLoading(true);
@@ -76,18 +103,18 @@ const ProductDetailedPage = () => {
                                                         )
                                                     )}
                                                     {Array.from(
-                                                            {
-                                                                length:
-                                                                    5 - Math.floor(product.rating.rate),
+                                                        {
+                                                            length:
+                                                                5 - Math.floor(product.rating.rate),
 
-                                                            },
-                                                            (_, i) => (
-                                                                <StarIconOutline
-                                                                    key={i}
-                                                                    className='h-4 w-4 text-yellow-500'
-                                                                />
-                                                            )
-                                                        )}
+                                                        },
+                                                        (_, i) => (
+                                                            <StarIconOutline
+                                                                key={i}
+                                                                className='h-4 w-4 text-yellow-500'
+                                                            />
+                                                        )
+                                                    )}
                                                     {/* <ReactStars value={product.rating.rate} edit={false}/> */}
                                                 </div>
                                             )}
@@ -101,7 +128,7 @@ const ProductDetailedPage = () => {
                                     </div>
 
                                     <div className='space-y-3 text-sm'>
-                                        <button className='button w-full bg-blue-600 text-white border-transparent hover:bg-transparent hover:text-black hover:border-blue-600'>
+                                        <button className='button w-full bg-blue-600 text-white border-transparent hover:bg-transparent hover:text-black hover:border-blue-600' onClick={handleClick}>
                                             Add to bag
                                         </button>
                                         <button
