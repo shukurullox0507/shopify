@@ -1,5 +1,6 @@
 'use client'
 import CustomImage from '@/components/image'
+import ReactStars from 'react-stars'
 import { ProductType } from '@/interfaces'
 import { Dialog } from '@headlessui/react'
 import { StarIcon } from '@heroicons/react/24/solid'
@@ -74,8 +75,7 @@ const ProductDetailedPage = () => {
                                                             />
                                                         )
                                                     )}
-                                                    {
-                                                        Array.from(
+                                                    {Array.from(
                                                             {
                                                                 length:
                                                                     5 - Math.floor(product.rating.rate),
@@ -88,6 +88,7 @@ const ProductDetailedPage = () => {
                                                                 />
                                                             )
                                                         )}
+                                                    {/* <ReactStars value={product.rating.rate} edit={false}/> */}
                                                 </div>
                                             )}
                                             <p className='text-blue-600 hover:underline cursor-pointer text-xs'>
