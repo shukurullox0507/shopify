@@ -1,3 +1,4 @@
+import Footer from '@/components/footer';
 import CustomImage from '@/components/image';
 import { notFound } from 'next/navigation';
 import React from 'react'
@@ -35,6 +36,7 @@ const ProductDetailedPage = async ({ params: { id } }: Props) => {
                         </p>
                     </div>
                 </div>
+                <Footer/>
             </div>
         )
     } catch (error) {

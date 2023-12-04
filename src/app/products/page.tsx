@@ -1,4 +1,3 @@
-import Cta from '@/components/footer'
 import Feature from '@/components/feature'
 import Product from '@/components/product'
 import { ProductType } from '@/interfaces'
@@ -18,6 +17,7 @@ const ProductPage = async () => {
                     ))}
                 </div>
             </section>
+            <Footer />
         </main>
     )
 }

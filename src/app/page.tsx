@@ -18,6 +18,7 @@ export default async function Home() {
             <Product key={product.id} product={product} />
           ))}
         </div>
+        <Footer/>
       </section>
     </main>
   )
