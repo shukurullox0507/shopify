@@ -1,5 +1,6 @@
 'use client';
 
+import withAuth from '@/app/utils/withAuth';
 import CustomImage from '@/components/image';
 import { ProductType } from '@/interfaces';
 import { Dialog } from '@headlessui/react';
@@ -162,4 +163,4 @@ const ProductDetailedPage = () => {
 	
 };
 
-export default ProductDetailedPage;
+export default withAuth(ProductDetailedPage);

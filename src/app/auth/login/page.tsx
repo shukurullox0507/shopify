@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { auth } from '@/app/services/firebase'
 import { useAuth } from '@/app/context/auth-context'
 import { toast } from 'react-toastify';
+import withAuth from '@/app/utils/withAuth'
 
 
 const Login = () => {
@@ -11,7 +12,7 @@ const Login = () => {
         email: '',
         password: ''
     });
-    const { user, login } = useAuth()
+    const { user, login,loading,setLoading } = useAuth()
 
     const router = useRouter();
 
@@ -21,6 +22,7 @@ const Login = () => {
         try {
             await login(data.email, data.password);
             router.push('/');
+            localStorage.setItem('isAuthenticated','true')
             toast.success('You have successfully logged in')
 
         } catch (error:any) {
@@ -34,7 +36,7 @@ const Login = () => {
         if (user) {
             router.push('/')
         }
-    }, [])
+    }, [user,router])
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -78,6 +80,7 @@ const Login = () => {
                         required
                     />
                 </div>
+                <p className='text-sm mb-2'>Do not have an account? <a href="/auth/register" className='text-blue-600'>Sign up</a></p>
                 <div className="flex justify-center">
                     <button
                         type="submit"
@@ -91,4 +94,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default withAuth(Login)

@@ -1,70 +1,86 @@
 'use client'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
     onAuthStateChanged,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
-} from 'firebase/auth'
-import { auth } from '../services/firebase'
+    User as FirebaseUser,
+} from 'firebase/auth';
+import { auth } from '../services/firebase';
 
-export const AuthContext = createContext<any>({})
+export const AuthContext = createContext<any>({});
 
-export const useAuth = () => useContext(AuthContext)
+export const useAuth = () => useContext(AuthContext);
 
-export const AuthContextProvider = ({
-    children,
-}: {
-    children: React.ReactNode
-}) => {
-    const [user, setUser] = useState<any>(null)
-    const [loading, setLoading] = useState(true)
-    console.log(user)
+export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
+    const router = useRouter();
+    const [user, setUser] = useState<FirebaseUser | any>(localStorage.getItem('user') || "");
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        // const unsubscribe = onAuthStateChanged(auth, (user) => {
-        //     if (user) {
-        //         setUser({
-        //             email: user.email,
-        //             password: user,
-        //         })
-        //     } else {
-        //         setUser(null)
-        //     }
-        //     setLoading(false)
-        // })
+        console.log(user);
+        const accessToken = getTokenFromLocalStorage();
 
-        // return () => unsubscribe()
-
-        if (user) {
-            setUser({
-                email: user.email,
-                password: user.password,
-            })
-        }else{
-            setUser(null)
+        if (!loading) {
+            if (user && accessToken) {
+                // Redirect to the home page or the main dashboard when authenticated
+                router.push('/'); // Adjust this route according to your home page route
+            }
         }
-        setLoading(false)
-    }, [])
+    }, [loading, user, router]);
 
-    const signup = (email: string, password: string) => {
-        return createUserWithEmailAndPassword(auth, email, password)
-    }
+    const getTokenFromLocalStorage = () => {
+        return localStorage.getItem('accessToken');
+    };
 
-    const login = async(email: string, password: string) => {
-        const logIn = await signInWithEmailAndPassword(auth, email, password)
-        setUser(logIn)
-        return logIn
-    }
+    const removeTokenFromLocalStorage = () => {
+        localStorage.removeItem('accessToken');
+    };
+
+    const signup = async (email: string, password: string) => {
+        console.log(email, password);
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            setUser(userCredential.user)
+            router.push('/');
+            return userCredential;
+        } catch (error) {
+
+            throw error;
+        }
+    };
+
+    const login = async (email: string, password: string) => {
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            setUser(userCredential.user);
+            //@ts-ignore
+            localStorage.setItem('user', userCredential.user.accessToken)
+            router.push('/');
+            return userCredential;
+        } catch (error) {
+            throw error;
+        }
+    };
 
     const logout = async () => {
-        setUser(null)
-        await signOut(auth)
-    }
+        try {
+            await signOut(auth);
+            setUser(null);
+            removeTokenFromLocalStorage();
+            router.push('/auth/login');
+        } catch (error) {
+            throw error;
+        }
+    };
 
     return (
-        <AuthContext.Provider value={{ user, login, signup, logout }}>
-            {loading ? null : children}
+        <AuthContext.Provider value={{ user, login, signup, logout, setLoading }}>
+            {loading ? <div className="container w-full h-screen flex justify-center align-center">
+                <div className='h-13 w-13 rounded-full border-2 border-dotted border-blue-600 animate-spin' />
+            </div> : children}
         </AuthContext.Provider>
-    )
-}
+    );
+};

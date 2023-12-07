@@ -6,7 +6,7 @@ export const useAuth = () => {
   const authContext = useContext(AuthContext); // Use the context relevant to authentication
 
   // Extract the necessary data or methods from the context and return them
-  const { user, loading, login, logout } = authContext;
+  const { user, loading,setLoading, login,signup, logout} = authContext;
 
-  return { user, loading, login, logout }; // Return what your components need to know about authentication
+  return { user, loading,setLoading, login,signup, logout }; // Return what your components need to know about authentication
 };

@@ -5,27 +5,26 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/app/services/firebase';
 import { toast } from 'react-toastify';
+import withAuth from '@/app/utils/withAuth';
+import { useAuth } from '@/app/services/auth';
 
 const Signup = () => {
   const [data, setData] = useState({
     email: '',
     password: ''
   });
+  const { signup } = useAuth()
   const [signed, setSigned] = useState(false)
   const [user, setUser] = useState<User | null>(null);
 
   const router = useRouter();
 
-
-    const signUp = async (email: string, password: string) => {
-    return await createUserWithEmailAndPassword(auth, email, password);
-  };  
   useEffect(() => {
     if (user) {
       router.push('/auth/login');
     }
   }, [user, router]);
-  
+
 
 
 
@@ -34,12 +33,14 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const res = await signUp(data.email, data.password);
-      console.log(res);
+      const res = await signup(data.email, data.password);
       router.push('/auth/login');
       setSigned(true)
+      localStorage.setItem('isRegistered', 'true');
+      localStorage.setItem('user', JSON.stringify({ email: data.email, password: data.password }))
       toast.success('You have successfully registered')
-    } catch (err:any) {
+    } catch (err: any) {
+      console.log(data);
       console.log(err);
       toast.error(err.message)
     }
@@ -88,6 +89,12 @@ const Signup = () => {
             required
           />
         </div>
+        <p className='text-sm mb-2'>
+          Already have an account?
+          <a className='text-blue-600' href="/auth/login">
+            Login
+          </a>
+        </p>
         <div className="flex justify-center">
           <button
             type="submit"
@@ -101,4 +108,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default withAuth(Signup);

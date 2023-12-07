@@ -1,7 +1,21 @@
-// pages/protectedPage.tsx
-import withAuth from '@/app/utils/withAuth';
-import Home from '@/app/page'; // Replace with your actual protected component
+// // pages/protectedPage.tsx
+// "use client"
 
-const ProtectedPage = withAuth(Home);
+// import { useEffect } from 'react';
+// import { useRouter } from 'next/navigation';
+// import { useAuth } from '@/app/services/auth';
 
-export default ProtectedPage;
+// export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+//     const router = useRouter();
+//     const {user} = useAuth()
+//     useEffect(() => {
+//         const isAuthenticated = localStorage.getItem('isAuthenticated');
+//         if (!user) {
+//             router.push('/auth/register');     
+//         }else{
+//             router.replace('/')
+//         }
+//     }, [router,user]);
+
+//     return <>{children}</>;
+// };

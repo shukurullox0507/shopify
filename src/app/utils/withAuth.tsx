@@ -1,29 +1,34 @@
-// utils/withAuth.tsx
-import { useRouter } from 'next/router';
+// utils/withAuthAndProtectedRoute.tsx
+'use client'
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { useAuth } from '@/app/services/auth'; // Assuming this is your authentication service
-import Home from '../page';
+import { useAuth } from '@/app/services/auth';
 
 const withAuth = (WrappedComponent: React.ComponentType) => {
-    const Auth = (props: any) => {
+    const isAuthenticated = localStorage.getItem("isAuthenticated")
+    const isRegistered = localStorage.getItem("isRegistered")
+
+    const AuthAndProtectedRoute = (props: any) => {
         const router = useRouter();
-        const { user, loading } = useAuth(); // Assuming this retrieves the logged-in user
+        const { user, loading, setLoading } = useAuth();
 
         useEffect(() => {
-            if (!loading && !user) {
-                router.push('/auth/login'); // Redirect to login if user is not authenticated
+            if(isAuthenticated == "true" && isRegistered =='true'){
+                router.push('/');
+            }else if(isAuthenticated == 'false' && isRegistered == 'true'){
+                router.push("/auth/login");
+            }else if (isRegistered == 'false'){
+                router.push("/auth/register");
+            }else{
+                router.push("/auth/login");
             }
-        }, [user, loading, router]);
 
-        if (loading) {
-            return <p>Loading...</p>; // Show a loading indicator while checking authentication status
-        }
+        }, [router, user, loading, setLoading]);
 
-        return <Home />;
+        return <WrappedComponent {...props} />;
     };
 
-    return Auth;
+    return AuthAndProtectedRoute;
 };
 
 export default withAuth;
-
