@@ -36,8 +36,8 @@ const Signup = () => {
       const res = await signup(data.email, data.password);
       router.push('/auth/login');
       setSigned(true)
-      localStorage.setItem('isRegistered', 'true');
-      localStorage.setItem('user', JSON.stringify({ email: data.email, password: data.password }))
+      window.localStorage.setItem('isRegistered', 'true');
+      window.localStorage.setItem('user', JSON.stringify({ email: data.email, password: data.password }))
       toast.success('You have successfully registered')
     } catch (err: any) {
       console.log(data);

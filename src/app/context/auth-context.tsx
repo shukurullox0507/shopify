@@ -16,21 +16,21 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
-    const [user, setUser] = useState<FirebaseUser | any>(localStorage.getItem('user') || "");
+    const [user, setUser] = useState<FirebaseUser | any>(window.localStorage.getItem('user') || "");
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         console.log(user);
-        const accessToken = getTokenFromLocalStorage();
+        const accessToken = getTokenFromwindow.localStorage();
 
     }, [loading, user, router]);
 
-    const getTokenFromLocalStorage = () => {
-        return localStorage.getItem('accessToken');
+    const getTokenFromwindow.localStorage = () => {
+        return window.localStorage.getItem('accessToken');
     };
 
-    const removeTokenFromLocalStorage = () => {
-        localStorage.removeItem('accessToken');
+    const removeTokenFromwindow.localStorage = () => {
+        window.localStorage.removeItem('accessToken');
     };
 
     const signup = async (email: string, password: string) => {
@@ -51,7 +51,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             setUser(userCredential.user);
             //@ts-ignore
-            localStorage.setItem('user', userCredential.user.accessToken)
+            window.localStorage.setItem('user', userCredential.user.accessToken)
             router.push('/');
             return userCredential;
         } catch (error) {
@@ -63,7 +63,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         try {
             await signOut(auth);
             setUser(null);
-            removeTokenFromLocalStorage();
+            removeTokenFromwindow.localStorage();
             router.push('/auth/login');
         } catch (error) {
             throw error;

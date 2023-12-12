@@ -22,7 +22,7 @@ const Login = () => {
         try {
             await login(data.email, data.password);
             router.push('/');
-            localStorage.setItem('isAuthenticated','true')
+            window.localStorage.setItem('isAuthenticated','true')
             toast.success('You have successfully logged in')
 
         } catch (error:any) {

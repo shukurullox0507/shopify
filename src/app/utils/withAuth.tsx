@@ -5,8 +5,8 @@ import { useEffect } from 'react';
 import { useAuth } from '@/app/services/auth';
 
 const withAuth = (WrappedComponent: React.ComponentType) => {
-    const isAuthenticated = localStorage.getItem("isAuthenticated")
-    const isRegistered = localStorage.getItem("isRegistered")
+    const isAuthenticated = window.localStorage.getItem("isAuthenticated")
+    const isRegistered = window.localStorage.getItem("isRegistered")
 
     const AuthAndProtectedRoute = (props: any) => {
         const router = useRouter();

@@ -12,8 +12,8 @@ const Navbar = () => {
     const handleLogOut = async () => {
         try {
             await logout();
-            localStorage.setItem('isAuthenticated', 'false');
-            localStorage.removeItem('user');
+            window.localStorage.setItem('isAuthenticated', 'false');
+            window.localStorage.removeItem('user');
             toast.error('You have logged out')
         } catch (err: any) {
             console.error(err);
