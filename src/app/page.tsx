@@ -36,7 +36,8 @@ function Home() {
   }
 
   return (
-    <main className="min-h-screen max-w-7xl mx-auto px-8 xl:px-0">
+    <>
+    <main className="min-h-screen max-w-7xl px-8 mx-auto xl:px-0">
       <section className="flex flex-col space-y-12">
         <h1 className="text-xl text-blue-600 mt-5">Welcome to Smart Shop Deals</h1>
         <h1 className="text-5xl font-bold text-center">Smart Shop Deals</h1>
@@ -45,9 +46,10 @@ function Home() {
             <Product key={product.id} product={product} />
           ))}
         </div>
-        <Footer />
       </section>
     </main>
+        <Footer />
+    </>
   );
 }
 

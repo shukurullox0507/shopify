@@ -10,20 +10,20 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
 
     const AuthAndProtectedRoute = (props: any) => {
         const router = useRouter();
-        const { user, loading, setLoading } = useAuth();
+        const { user} = useAuth();
 
         useEffect(() => {
             if(isAuthenticated == "true" && isRegistered =='true'){
-                router.push('/');
-            }else if(isAuthenticated == 'false' && isRegistered == 'true'){
+                // router.back();
+            }else if(isAuthenticated == 'false'){
                 router.push("/auth/login");
-            }else if (isRegistered == 'false'){
+            }else if (!user || isRegistered == 'false'){
                 router.push("/auth/register");
             }else{
                 router.push("/auth/login");
             }
 
-        }, [router, user, loading, setLoading]);
+        }, [router, user]);
 
         return <WrappedComponent {...props} />;
     };

@@ -8,6 +8,7 @@ const ProductPage = async () => {
     const res = await fetch('https://fakestoreapi.com/products')
     const products: ProductType[] = await res.json()
     return (
+        <>
         <main className="min-h-screen max-w-7xl mx-auto px-8 xl:px-0">
             <Feature />
             <section className="flex flex-col space-y-12">
@@ -17,8 +18,9 @@ const ProductPage = async () => {
                     ))}
                 </div>
             </section>
-            <Footer />
         </main>
+            <Footer />
+        </>
     )
 }
 

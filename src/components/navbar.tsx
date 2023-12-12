@@ -32,6 +32,11 @@ const Navbar = () => {
                             <Link href={'/'} className="mr-5 hover:text-gray-900">Home</Link>
                             <Link href={'/products'} className="mr-5 hover:text-gray-900">All products</Link>
                         </nav>
+                        <Link href={'/products/create-product'}>
+                            <button className='button bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-transparent hover:text-black'>
+                                Add new product
+                            </button>
+                        </Link>
                         <Link href={'/shopping-cart'}>
                             <button className='button bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-transparent hover:text-black'>
                                 My bag

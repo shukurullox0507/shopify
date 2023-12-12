@@ -23,12 +23,6 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         console.log(user);
         const accessToken = getTokenFromLocalStorage();
 
-        if (!loading) {
-            if (user && accessToken) {
-                // Redirect to the home page or the main dashboard when authenticated
-                router.push('/'); // Adjust this route according to your home page route
-            }
-        }
     }, [loading, user, router]);
 
     const getTokenFromLocalStorage = () => {
