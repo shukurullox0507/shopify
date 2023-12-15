@@ -17,6 +17,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.49.0",
+    "react-query": "^3.39.3",
     "react-stars": "^2.2.5",
     "react-toastify": "^9.1.3"
   },

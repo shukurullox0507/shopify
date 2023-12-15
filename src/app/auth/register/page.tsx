@@ -3,7 +3,6 @@
 import { User, createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { auth } from '@/app/services/firebase';
 import { toast } from 'react-toastify';
 import withAuth from '@/app/utils/withAuth';
 import { useAuth } from '@/app/services/auth';
@@ -36,8 +35,8 @@ const Signup = () => {
       const res = await signup(data.email, data.password);
       router.push('/auth/login');
       setSigned(true)
-      window.localStorage.setItem('isRegistered', 'true');
-      window.localStorage.setItem('user', JSON.stringify({ email: data.email, password: data.password }))
+      localStorage.setItem('isRegistered', 'true');
+      localStorage.setItem('user', JSON.stringify({ email: data.email, password: data.password }))
       toast.success('You have successfully registered')
     } catch (err: any) {
       console.log(data);

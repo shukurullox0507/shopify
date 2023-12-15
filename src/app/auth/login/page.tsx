@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { auth } from '@/app/services/firebase'
 import { useAuth } from '@/app/context/auth-context'
 import { toast } from 'react-toastify';
 import withAuth from '@/app/utils/withAuth'
@@ -12,7 +11,7 @@ const Login = () => {
         email: '',
         password: ''
     });
-    const { user, login,loading,setLoading } = useAuth()
+    const { user, login } = useAuth()
 
     const router = useRouter();
 
@@ -22,10 +21,10 @@ const Login = () => {
         try {
             await login(data.email, data.password);
             router.push('/');
-            window.localStorage.setItem('isAuthenticated','true')
+            localStorage.setItem('isAuthenticated', 'true')
             toast.success('You have successfully logged in')
 
-        } catch (error:any) {
+        } catch (error: any) {
             console.error('Login error:', error);
             toast.error(error.message)
 
@@ -36,7 +35,7 @@ const Login = () => {
         if (user) {
             router.push('/')
         }
-    }, [user,router])
+    }, [user, router])
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">

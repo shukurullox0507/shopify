@@ -26,11 +26,11 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     }, [loading, user, router]);
 
     const getTokenFromLocalStorage = () => {
-        return window.localStorage.getItem('accessToken');
+        return localStorage.getItem('accessToken');
     };
 
     const removeTokenFromLocalStorage = () => {
-        window.localStorage.removeItem('accessToken');
+        localStorage.removeItem('accessToken');
     };
 
     const signup = async (email: string, password: string) => {
@@ -51,7 +51,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             setUser(userCredential.user);
             //@ts-ignore
-            window.localStorage.setItem('user', userCredential.user.accessToken)
+            localStorage.setItem('user', userCredential.user.accessToken)
             router.push('/');
             return userCredential;
         } catch (error) {

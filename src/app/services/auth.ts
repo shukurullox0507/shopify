@@ -1,4 +1,5 @@
 // services/Auth.tsx
+'use client'
 import { useContext } from 'react';
 import { AuthContext } from '../context/auth-context'; // Assuming you have an AuthContext
 

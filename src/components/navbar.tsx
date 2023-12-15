@@ -1,29 +1,31 @@
 'use client'
-import { useAuth } from '@/app/services/auth'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import React from 'react'
-import { toast } from 'react-toastify'
+import { useAuth } from '@/app/services/auth';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useMemo } from 'react';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
-    const router = useRouter()
-    const { user, logout } = useAuth()
+    const router = useRouter();
+    const { user, logout } = useAuth();
+
+    const memoizedUser = useMemo(() => user, [user]);
 
     const handleLogOut = async () => {
         try {
             await logout();
-            window.localStorage.setItem('isAuthenticated', 'false');
-            window.localStorage.removeItem('user');
-            toast.error('You have logged out')
-        } catch (err: any) {
+            localStorage.setItem('isAuthenticated', 'false');
+            localStorage.removeItem('user');
+            toast.error('You have logged out');
+        } catch (err:any) {
             console.error(err);
-            toast.error(err.message)
+            toast.error(err.message);
         }
-    }
+    };
 
     return (
         <>
-            {user && (
+            {memoizedUser && (
                 <header className='flex items-center px-4 md:px-12 py-2 justify-between top-0 w-full z-50 shadow bg-white'>
                     <Link href={'/'}>Smart Shop</Link>
                     <div className='flex items-center space-x-2.5 text-sm'>
@@ -50,7 +52,6 @@ const Navbar = () => {
             )}
         </>
     );
+};
 
-}
-
-export default Navbar
+export default Navbar;

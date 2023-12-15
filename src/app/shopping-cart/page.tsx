@@ -1,22 +1,20 @@
 'use client';
 
-import Footer from '@/components/footer';
 import CustomImage from '@/components/image';
 import { ProductType } from '@/interfaces';
 import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/24/solid';
-import { error } from 'console';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 const ShoppingCart = () => {
   const [total, setTotal] = useState<number>(0);
-  const [products, setProducts] = useState<ProductType[]>(JSON.parse(window.localStorage.getItem('carts') as string) || []);
+  const [products, setProducts] = useState<ProductType[]>(JSON.parse(localStorage.getItem('carts') as string) || []);
 
 
   const removeProduct = (id: number) => {
     const updatedCart = products.filter(product => product.id !== id)
-    window.localStorage.setItem('carts', JSON.stringify(updatedCart))
+    localStorage.setItem('carts', JSON.stringify(updatedCart))
     setProducts(updatedCart)
   }
 
@@ -33,7 +31,7 @@ const ShoppingCart = () => {
       return product
     })
 
-    window.localStorage.setItem('carts', JSON.stringify(updatedCart))
+    localStorage.setItem('carts', JSON.stringify(updatedCart))
     setProducts(updatedCart)
 
   }
@@ -52,7 +50,7 @@ const ShoppingCart = () => {
         }
         return product
       })
-      window.localStorage.setItem('carts', JSON.stringify(updatedCart))
+      localStorage.setItem('carts', JSON.stringify(updatedCart))
       setProducts(updatedCart)
     }
   }
@@ -91,8 +89,8 @@ const ShoppingCart = () => {
                         {product.description}
                       </p>
                       <div className='flex items-center text-sm my-4'>
-                        <p>{product?.rating.rate}</p>
-                        {product?.rating.rate && (
+                        <p>{product?.rating?.rate}</p>
+                        {product?.rating?.rate && (
                           <div className='flex items-center ml-2 mr-6'>
                             {Array.from(
                               {
@@ -120,7 +118,7 @@ const ShoppingCart = () => {
                           </div>
                         )}
                         <p className='text-blue-600 hover:underline cursor-pointer text-xs'>
-                          See all {product?.rating.count} reviews
+                          See all {product?.rating?.rate} reviews
                         </p>
                       </div>
                     </div>
